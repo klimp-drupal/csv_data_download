@@ -1,0 +1,41 @@
+<?php
+
+/**
+ * @file
+ * CSV Data Download module.
+ */
+
+/**
+ * Implements hook_mail().
+ */
+function csv_data_download_mail($key, &$message, $params) {
+  $options = [
+    'langcode' => $message['langcode'],
+  ];
+  switch ($key) {
+    case 'csv_data_download_key':
+      $from = \Drupal::config('system.site')->get('mail');
+      $message['subject'] = t('Your key to decrypt data downloaded from @site-name', ['@site-name' => $from], $options);
+      $message['body'][] = $params['message'];
+      break;
+  }
+}
+
+/**
+ * Implements hook_cron().
+ */
+function csv_data_download_cron() {
+  // Delete PII temporary files older than 1 hour.
+  $time = time() - \Drupal::config('csv_data_download.settings')->get('tmp_files_max_age');
+  $path = \Drupal::config('csv_data_download.settings')->get('tmp_folder_scheme');
+  if ($handle = opendir($path)) {
+    while (FALSE !== ($file = readdir($handle))) {
+      $file_path = $path . '/' . $file;
+      if (is_file($file_path)) {
+        if (filemtime($file_path) < ($time)) {
+          unlink($file_path);
+        }
+      }
+    }
+  }
+}

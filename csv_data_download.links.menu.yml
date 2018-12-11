@@ -1,0 +1,12 @@
+csv_data_download.download_form:
+  title: 'CSV Data Download data'
+  description: 'Downloads CSV user data'
+  parent: system.admin_structure
+  route_name: csv_data_download.download_form
+
+csv_data_download.csv_data_download_settings_form:
+  title: 'CSV Data Download Settings Form'
+  route_name: csv_data_download.csv_data_download_settings_form
+  description: 'A description for the menu entry'
+  parent: system.admin_config_system
+

@@ -1,0 +1,4 @@
+administer csv user download:
+  title: 'Administer csv user download'
+  description: 'Administer csv user download settings page.'
+  restrict access: true

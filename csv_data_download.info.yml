@@ -1,0 +1,7 @@
+name: CSV Data Download
+type: module
+description: Pulls webform data into a .csv file
+package: Klimp Custom
+core: 8.x
+dependencies:
+  - webform

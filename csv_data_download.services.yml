@@ -1,0 +1,19 @@
+services:
+  csv_data_download.csv:
+    class: Drupal\csv_data_download\CsvService
+    arguments:
+      - '@date.formatter'
+  csv_data_download.archive:
+    class: Drupal\csv_data_download\ArchiveService
+    arguments:
+      - '@file_system'
+  csv_data_download.archive_downloaded_event_subscriber:
+      class: Drupal\csv_data_download\EventSubscriber\ArchiveDownloadedEventSubscriber
+      arguments:
+        - '@plugin.manager.mail'
+        - '@language_manager'
+        - '@config.factory'
+        - '@logger.factory'
+      tags:
+        - { name: event_subscriber }
+

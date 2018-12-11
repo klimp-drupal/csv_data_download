@@ -1,0 +1,7 @@
+file_download_trigger:
+  version: 1.x
+  js:
+    js/file_download_trigger.js: {}
+  dependencies:
+      - core/jquery
+      - core/jquery.once
