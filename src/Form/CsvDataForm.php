@@ -134,8 +134,10 @@ class CsvDataForm extends FormBase {
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
 
+    $session = $this->getRequest()->getSession();
+
     // Attach the library when redirected from batch.
-    if (isset($_SESSION['zip_filename'])) {
+    if ($zip_filename = $session->get('zip_filename')) {
       $form['download_link_container'] = [
         '#type' => 'container',
         '#attributes' => ['id' => 'download-link-container'],
@@ -143,12 +145,12 @@ class CsvDataForm extends FormBase {
           'library' => ['csv_data_download/file_download_trigger'],
           'drupalSettings' => [
             'csvDataDownload' => [
-              'downloadZip' => $_SESSION['zip_filename'],
+              'downloadZip' => $zip_filename,
             ],
           ],
         ],
       ];
-      unset($_SESSION['zip_filename']);
+      $session->remove('zip_filename');
     }
 
     $form['submit'] = [
@@ -306,7 +308,7 @@ class CsvDataForm extends FormBase {
       try {
         // Create encrypted Zip Archive.
         $zip_path = $this->archiveService->createZipArchive($this->scheme, $results['filename'], $password);
-        $_SESSION['zip_filename'] = $results['filename'];
+        $this->getRequest()->getSession()->set('zip_filename', $results['filename']);
       }
       catch (\Exception $e) {
         $this->handleException($e);
