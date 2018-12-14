@@ -138,18 +138,16 @@ class CsvDataForm extends FormBase {
 
     // Attach the library when redirected from batch.
     if ($zip_filename = $session->get('zip_filename')) {
-      $form['download_link_container'] = [
-        '#type' => 'container',
-        '#attributes' => ['id' => 'download-link-container'],
-        '#attached' => [
-          'library' => ['csv_data_download/file_download_trigger'],
-          'drupalSettings' => [
-            'csvDataDownload' => [
-              'downloadZip' => $zip_filename,
-            ],
+
+      $form['#attached'] = [
+        'library' => ['csv_data_download/file_download_trigger'],
+        'drupalSettings' => [
+          'csvDataDownload' => [
+            'downloadZip' => $zip_filename,
           ],
         ],
       ];
+
       $session->remove('zip_filename');
     }
 

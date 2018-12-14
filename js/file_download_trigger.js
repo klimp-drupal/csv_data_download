@@ -6,13 +6,13 @@
 
   Drupal.behaviors.zipDownloadHelper = {
     attach: function attach(context) {
-      $('#download-link-container', context).once('zipDownloadHelper').each(function () {
-        var downloadLink=document.createElement('a');
-        $(downloadLink).attr('href', '/zip_download/' + drupalSettings.csvDataDownload.downloadZip).hide();
-        $(this).append(downloadLink);
-        downloadLink.click();
-        $(downloadLink).remove();
-      });
+
+      // Show the file download window only on full document being loaded
+      if (context === document) {
+        // In Firefox it doesn't load a favicon before a file download window gets pop up
+        window.location.replace('/zip_download/' + drupalSettings.csvDataDownload.downloadZip);
+      }
+
     }
   };
 
